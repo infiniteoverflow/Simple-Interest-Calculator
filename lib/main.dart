@@ -32,6 +32,8 @@ class _SIForm extends State<SIForm> {
   var _itemSelected = "Rupees";
   var totalGain = " ";
 
+  var _formKey = GlobalKey<FormState>();
+
   TextEditingController principalController = TextEditingController();
   TextEditingController roiController = TextEditingController();
   TextEditingController termController = TextEditingController();
@@ -39,14 +41,21 @@ class _SIForm extends State<SIForm> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Container(
+    return Form(
+      key: _formKey,
       child: ListView(
         children: <Widget>[
           getImageAsset(),
 
           Padding(
             padding: EdgeInsets.all(20.0),
-            child: TextField(
+            child: TextFormField(
+                validator: (String value) {
+                  if(value.isEmpty) {
+                    totalGain = "";
+                    return "Enter a principal amount";
+                  } 
+                },
                 controller: principalController,
                 keyboardType: TextInputType.number,
                 keyboardAppearance: Brightness.dark,
@@ -60,7 +69,13 @@ class _SIForm extends State<SIForm> {
 
           Padding(
             padding: EdgeInsets.only(top:5.0,left: 20.0,right: 20.0),
-            child: TextField(
+            child: TextFormField(
+                validator: (String value) {
+                  if(value.isEmpty) {
+                    totalGain = "";
+                    return "Enter a Rate of Interest";
+                  } 
+                },
                 controller: roiController,
                 keyboardType: TextInputType.number,
                 keyboardAppearance: Brightness.dark,
@@ -77,7 +92,13 @@ class _SIForm extends State<SIForm> {
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.only(top: 25.0,left: 20.0,right: 5.0),
-                  child: TextField(
+                  child: TextFormField(
+                    validator: (String value) {
+                  if(value.isEmpty) {
+                    totalGain = "";
+                    return "Enter the term";
+                  } 
+                },
                     controller: termController,
                 keyboardType: TextInputType.number,
                 keyboardAppearance: Brightness.dark,
@@ -129,7 +150,9 @@ class _SIForm extends State<SIForm> {
                   ),
                   onPressed: () {
                     setState(() {
-                      totalGain = getTotalAmount();
+                      if(_formKey.currentState.validate()) {
+                        totalGain = getTotalAmount();
+                      }
                     });
                   },
                 ),
