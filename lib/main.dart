@@ -4,7 +4,12 @@ void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     title: "Simple Interest Calculator",
+    theme: ThemeData(
+      primaryColor: Colors.indigo,
+      accentColor: Colors.indigo
+    ),
     home: Scaffold(
+      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
         title: Text("Simple Interest Calculator"),
@@ -131,6 +136,12 @@ class _SIForm extends State<SIForm> {
                 ),
               )
             ],
+          ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Text(
+            "Todo Text"
           ),
           )
         ],
