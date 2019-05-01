@@ -28,7 +28,13 @@ class SIForm extends StatefulWidget {
 }
 
 class _SIForm extends State<SIForm> {
-  var items = ["Rupees","Dollars","Others"];
+  var items = ["Rupees","Dollars","Euro"];
+  var _itemSelected = "Rupees";
+  var totalGain = " ";
+
+  TextEditingController principalController = TextEditingController();
+  TextEditingController roiController = TextEditingController();
+  TextEditingController termController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +47,7 @@ class _SIForm extends State<SIForm> {
           Padding(
             padding: EdgeInsets.all(20.0),
             child: TextField(
+                controller: principalController,
                 keyboardType: TextInputType.number,
                 keyboardAppearance: Brightness.dark,
                 decoration: InputDecoration(
@@ -54,6 +61,7 @@ class _SIForm extends State<SIForm> {
           Padding(
             padding: EdgeInsets.only(top:5.0,left: 20.0,right: 20.0),
             child: TextField(
+                controller: roiController,
                 keyboardType: TextInputType.number,
                 keyboardAppearance: Brightness.dark,
                 decoration: InputDecoration(
@@ -70,6 +78,7 @@ class _SIForm extends State<SIForm> {
                 child: Padding(
                   padding: EdgeInsets.only(top: 25.0,left: 20.0,right: 5.0),
                   child: TextField(
+                    controller: termController,
                 keyboardType: TextInputType.number,
                 keyboardAppearance: Brightness.dark,
                 decoration: InputDecoration(
@@ -85,7 +94,7 @@ class _SIForm extends State<SIForm> {
                 child: Padding(
                   padding: EdgeInsets.only(top:25.0,right:10.0,left: 10.0),
                   child: DropdownButton<String>(
-                    value: "Rupees",
+                    value: _itemSelected,
                 items: items.map((String dropDownItem) {
 
                   return DropdownMenuItem<String> (
@@ -99,7 +108,7 @@ class _SIForm extends State<SIForm> {
 
                 onChanged: (String value) {
                   setState(() {
-                    
+                    this._itemSelected = value;
                   });
                 },
               ),
@@ -119,7 +128,9 @@ class _SIForm extends State<SIForm> {
                     "Calculate"
                   ),
                   onPressed: () {
-
+                    setState(() {
+                      totalGain = getTotalAmount();
+                    });
                   },
                 ),
               ),
@@ -131,7 +142,9 @@ class _SIForm extends State<SIForm> {
                     "Reset"
                   ),
                   onPressed: () {
-                    
+                    setState(() {
+                      resetData();
+                    });
                   },
                 ),
               )
@@ -141,7 +154,10 @@ class _SIForm extends State<SIForm> {
           Padding(
             padding: EdgeInsets.all(20.0),
             child: Text(
-            "Todo Text"
+            totalGain,
+            style: TextStyle(
+              fontSize: 20.0
+            ),
           ),
           )
         ],
@@ -159,5 +175,22 @@ class _SIForm extends State<SIForm> {
     return Container(
       child: image,
     );
+  }
+
+  String getTotalAmount() {
+    double p = double.parse(principalController.text);
+    double r = double.parse(roiController.text);
+    double t = double.parse(termController.text);
+
+    totalGain = "The amount after $t years is ${p+(p*r*t)/100} $_itemSelected";
+    return totalGain;
+  }
+
+  void resetData() {
+    principalController.text = '';
+    roiController.text = '';
+    termController.text = '';
+    _itemSelected = "Rupees";
+    totalGain = ' ';
   }
 }
