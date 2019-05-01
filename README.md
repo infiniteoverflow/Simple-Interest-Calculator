@@ -1,5 +1,5 @@
 # Simple-Interest-Calculator
-A Flutter app that is used to calculate the returns for a certain pricipal amount at a given rate of a period of time.
+A Flutter app that is used to calculate the returns for a certain principal amount at a given rate for a period of time.
 
 The Principal amount is calculated by:
 ```
